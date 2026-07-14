@@ -1,26 +1,4 @@
-import { getDownloadURL, ref } from 'firebase/storage'
-import Image from 'next/image'
-import { useEffect, useState } from 'react'
-import 'react-multi-carousel/lib/styles.css'
-import { fbStorage } from '../firebase'
-
 export default function UseCases() {
-  const [urls, setUrls] = useState<string[]>([])
-
-  useEffect(() => {
-    const refs = [
-      ref(fbStorage, 'images/use_case_edit.gif'),
-      ref(fbStorage, 'images/use_case_focus.gif'),
-      ref(fbStorage, 'images/use_case_subtitles.gif'),
-      ref(fbStorage, 'images/use_case_chapters.gif'),
-      ref(fbStorage, 'images/use_case_train.gif'),
-      ref(fbStorage, 'images/use_case_more.jpg'),
-    ]
-    Promise.all(refs.map((r) => getDownloadURL(r))).then((urls) => {
-      setUrls(urls)
-    })
-  })
-
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-4">
@@ -49,19 +27,9 @@ export default function UseCases() {
             'And many more!',
             'This data is versatile and can be used in many workflows!',
           ],
-        ].map(([title, description], index) => (
-          <div
-            key={title}
-            className="grid card bg-b2 py-0 px-0 overflow-hidden"
-          >
-            <Image
-              className="w-full"
-              width={80}
-              height={40}
-              alt={`Image for ${title}`}
-              src={urls[index]}
-            />
-            <div className="py-4 px-4 flex flex-col">
+        ].map(([title, description]) => (
+          <div key={title} className="grid card bg-b2 overflow-hidden">
+            <div className="flex flex-col">
               <h2 className="font-bold text-xl mb-2">{title}</h2>
               <p className="text-f2">{description}</p>
             </div>
